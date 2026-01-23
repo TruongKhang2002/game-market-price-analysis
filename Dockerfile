@@ -16,16 +16,18 @@ ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 # ENV PATH=/home/airflow/.local/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # Tạo thư mục chứa jars (Spark/Hadoop thường đọc ở đây)
-RUN mkdir -p /opt/jars
+# Thay đổi đường dẫn để khớp với cấu hình trong DAG và script (/opt/airflow/jars-custom)
+RUN mkdir -p /opt/airflow/jars-custom
 
 # Tải AWS + Hadoop S3 connector
-RUN curl -L -o /opt/jars/aws-java-sdk-bundle-1.12.262.jar \
+RUN curl -L -o /opt/airflow/jars-custom/aws-java-sdk-bundle-1.12.262.jar \
       https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.262/aws-java-sdk-bundle-1.12.262.jar \
- && curl -L -o /opt/jars/hadoop-aws-3.3.4.jar \
-      https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.4/hadoop-aws-3.3.4.jar
+ && curl -L -o /opt/airflow/jars-custom/hadoop-aws-3.3.4.jar \
+      https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.4/hadoop-aws-3.3.4.jar \
+ && chown -R airflow:root /opt/airflow/jars-custom
 
 # (Tuỳ chọn) add vào CLASSPATH để Spark / Hadoop / Airflow thấy
-ENV CLASSPATH=/opt/jars/*
+ENV CLASSPATH=/opt/airflow/jars-custom/*
 
 USER airflow
 
