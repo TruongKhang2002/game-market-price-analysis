@@ -97,7 +97,7 @@ Bảng `game_prices` bao gồm các trường chính:
 
 1.  **Khởi động hệ thống**:
     ```bash
-    docker-compose up -d
+    docker-compose up -d --build
     ```
 
 2.  **Truy cập Airflow UI**:
