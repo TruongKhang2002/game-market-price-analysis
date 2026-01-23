@@ -15,6 +15,17 @@ RUN apt-get update \
 ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 # ENV PATH=/home/airflow/.local/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
+# Tạo thư mục chứa jars (Spark/Hadoop thường đọc ở đây)
+RUN mkdir -p /opt/jars
+
+# Tải AWS + Hadoop S3 connector
+RUN curl -L -o /opt/jars/aws-java-sdk-bundle-1.12.262.jar \
+      https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.262/aws-java-sdk-bundle-1.12.262.jar \
+ && curl -L -o /opt/jars/hadoop-aws-3.3.4.jar \
+      https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.4/hadoop-aws-3.3.4.jar
+
+# (Tuỳ chọn) add vào CLASSPATH để Spark / Hadoop / Airflow thấy
+ENV CLASSPATH=/opt/jars/*
 
 USER airflow
 
