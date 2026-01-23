@@ -1,0 +1,20 @@
+CREATE TABLE game_prices (
+    store_id TEXT,
+    game_id TEXT,
+    deal_id TEXT NOT NULL,
+    game_title TEXT,
+    is_on_sale BOOLEAN,
+    original_price NUMERIC,
+    sale_price NUMERIC,
+    metacritic_score INT,
+    rating_text TEXT,
+    rating INT,
+    deal_score INT,
+    release_date DATE,
+    thumbnail_url TEXT,
+    cheapest_price_ever NUMERIC,
+    cheapest_price_ever_date DATE,
+    store_name TEXT,
+    date DATE,
+    PRIMARY KEY (deal_id, date)
+);
