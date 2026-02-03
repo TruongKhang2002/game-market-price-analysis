@@ -104,3 +104,7 @@ Bảng `game_prices` bao gồm các trường chính:
     -   Mở trình duyệt tại `http://localhost:8080`.
     -   Tìm DAG `game_price_analytics`.
     -   Bật DAG (Unpause) để hệ thống chạy theo lịch (09:00 hàng ngày) hoặc Trigger thủ công.
+
+## Dashboard
+
+I have a PowerBI visualize dashboard in game_price.pbix file.
