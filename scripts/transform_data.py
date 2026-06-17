@@ -6,6 +6,7 @@ import os
 import traceback
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from config import *
+from minio import Minio
 
 try:
     # Cấu hình Spark Session kết nối MinIO
@@ -25,6 +26,18 @@ try:
         .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
         .config("spark.hadoop.fs.s3a.connection.ssl.enabled", "false") \
         .getOrCreate()
+
+    # Đảm bảo bucket 'data-process' tồn tại
+    minio_client = Minio(
+        MINIO_ENDPOINT,
+        access_key=MINIO_ACCESS_KEY,
+        secret_key=MINIO_SECRET_KEY,
+        secure=False
+    )
+    bucket_name = "data-process"
+    if not minio_client.bucket_exists(bucket_name):
+        minio_client.make_bucket(bucket_name)
+        print(f"Bucket '{bucket_name}' created.")
 
     # 1. Xác định ngày mới nhất trong Master File hiện tại
     target_dir = "s3a://data-process/game_prices"
