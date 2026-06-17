@@ -100,7 +100,17 @@ Bảng `game_prices` bao gồm các trường chính:
     docker-compose up -d --build
     ```
 
-2.  **Truy cập Airflow UI**:
+2.  **Cấu hình Airflow Connection cho Spark**:
+    Sau khi các container đã khởi động, chạy lệnh sau để Airflow biết cách kết nối đến Spark Master. **Lưu ý**: Lệnh này chỉ cần chạy một lần duy nhất.
+    ```bash
+    docker exec airflow-scheduler airflow connections add 'spark_default' \
+        --conn-type 'spark' \
+        --conn-host 'spark://spark-master' \
+        --conn-port '7077'
+    ```
+    *Lưu ý: Tên container `airflow-scheduler` có thể khác tùy vào cấu hình `docker-compose.yml` của bạn. Nếu lệnh trên thất bại, hãy tìm tên container chính xác bằng lệnh `docker ps | grep scheduler` và thay thế `airflow-scheduler`.*
+
+3.  **Truy cập Airflow UI**:
     -   Mở trình duyệt tại `http://localhost:8080`.
     -   Tìm DAG `game_price_analytics`.
     -   Bật DAG (Unpause) để hệ thống chạy theo lịch (09:00 hàng ngày) hoặc Trigger thủ công.
